@@ -100,6 +100,7 @@ function cleanCart() {
     generateCart();
     printCart();
     document.getElementById("cart_list").innerHTML = "";
+    numeroCarro = 0;    //funciona?
 }
 
 // Exercise 3
@@ -117,16 +118,53 @@ function calculateTotal() {
 function generateCart() {
     // Using the "cartlist" array that contains all the items in the shopping cart, 
     // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
+    let cartLength = cartList.length;
+
+    for (let i = 0; i < cartLength; i++) {
+        let indexID = cartList[i].id;   //el ID de cada item
+        let indexCart = cart.findIndex(e => e.id == indexID);   //la posicion en cart del item que tiene ese ID
+        if (indexCart < 0) {    //si en cart no hay item con ese ID lo añado y le pondo quantity = 1
+            cart.push(cartList[i]);
+            cart.at(-1).quantity = 1;
+        } else {    //si en cart ya existe ese item le sumo 1 quantity
+            cart[indexCart].quantity++;
+        }
+    }
+    applyPromotionsCart(); // Aplicamos las promociones!!!
+    console.table(cart);
 }
 
 // Exercise 5
 function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
+    let cartLength = cart.length;
+    for (let i = 0; i < cartLength; i++) {
+        let indexID = cartList[i].id
+        cart[i].subtotal = (cart[i].price) * (cart[i].quantity);
+        cart[i].subtotalWithDiscount = (cart[i].price) * (cart[i].quantity); //pongo con descuento tambien si no hay para facilitar la insercion de datos en el Ex.6
+        if ((cart[i].id == 1) && (cart[i].quantity >= 3)) {  // oferta cooking oil
+            cart[i].subtotalWithDiscount = 10 * cart[i].quantity
+        }
+        if ((cart[i].id == 3) && (cart[i].quantity >= 10)) {  // oferta pastís
+            cart[i].subtotalWithDiscount = (cart[i].price * 2 / 3) * (cart[i].quantity)
+        }
+    }
+    console.table(cart);
 }
 
 // Exercise 6
 function printCart() {
     // Fill the shopping cart modal manipulating the shopping cart dom
+    for (let i = 0; i < cart.length; i++) {
+        document.getElementById("cart_list").innerHTML += "<tr><br><th>" +
+            cart[i].name + "</th><br><td>" + cart[i].price + "<td><br><td>" +
+            cart[i].quantity + "<td><br><td>" + cart[i].subtotalWithDiscount;
+    }
+    let totalPrice = 0;
+    for (let i = 0; i < cart.length; i++) {
+        totalPrice += cart[i].subtotalWithDiscount;
+    }
+    document.getElementById("total_price").innerHTML = totalPrice
 }
 
 
