@@ -1,3 +1,42 @@
+body {
+  background-color: rgb(255, 206, 182);
+}
+.navbar {
+  background-color: rgb(217, 255, 176) !important;
+}
 h1 {
   color: red;
+}
+.lead {
+  color: black !important;
+}
+img {
+  height: 250px;
+  object-fit: cover;
+}
+.carousel {
+  text-shadow: 2px 2px 10px rgb(255, 0, 0);
+}
+.carousel .icarousel-item {
+  height: 500px;
+}
+.carousel-item {
+  height: 500px;
+}
+.carousel-item img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-height: 500px;
+}
+.card {
+  background-color: rgb(217, 255, 176);
+  width: 320px;
+  overflow: hidden;
+}
+.btn-circle {
+  border-radius: 100%;
+}
+.card-img-top:hover {
+  transform: scale(1.2);
 }
